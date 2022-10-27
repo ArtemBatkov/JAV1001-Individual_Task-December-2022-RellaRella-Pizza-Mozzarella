@@ -3,41 +3,51 @@ package hardroid.pizza_mozzarella.rellarella
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
-import hardroid.pizza_mozzarella.rellarella.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import hardroid.pizza_mozzarella.rellarella.model.PizzaModel
+import hardroid.pizza_mozzarella.rellarella.model.PizzaService
+import hardroid.pizza_mozzarella.rellarella.model.SpecialPromotionService
+import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromotionAdapter
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: PizzasAdapter
 
+    private var PizzaModels: List<PizzaModel> = listOf()
+    val PizzaService: PizzaService = PizzaService()
 
-    private  val pizzaService: PizzaService
-        get() = (applicationContext as App).pizzaService
+    val SpecialPromotionService = SpecialPromotionService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//         val binding: ViewDataBinding? = DataBindingUtil.setContentView(this,R.layout.activity_main);
+
+        //initialize
+        setUpPizzaModels()
 
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        adapter = PizzasAdapter()
+        var RecyclerView:RecyclerView =  findViewById(R.id.recycler_view)
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = adapter
+        var PizzaAdapter = PizzasAdapter(this,PizzaModels)
 
-        pizzaService.addListener(pizasListener)
+        RecyclerView.adapter = PizzaAdapter
+
+        RecyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        //promotions
+        var PromotionRecycler: RecyclerView = findViewById(R.id.special_promotion)
+        var SpecialPromotionAdapter = SpecialPromotionAdapter(this,SpecialPromotionService.getPromotionsList())
+        PromotionRecycler.adapter = SpecialPromotionAdapter
+        PromotionRecycler.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+
     }
 
-    private val pizasListener: PizzasListeners = {
-        adapter.pizzas = it
+    private fun setUpPizzaModels(){
+        PizzaModels = PizzaService.getPizza()
     }
-
 
 
 }

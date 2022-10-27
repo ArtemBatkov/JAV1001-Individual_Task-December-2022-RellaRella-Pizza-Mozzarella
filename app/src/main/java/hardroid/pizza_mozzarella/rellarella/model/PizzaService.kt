@@ -1,28 +1,28 @@
-package hardroid.pizza_mozzarella.rellarella
+package hardroid.pizza_mozzarella.rellarella.model
 
-import com.github.javafaker.Faker
+import hardroid.pizza_mozzarella.rellarella.model.PizzaModel
 import java.util.*
 
 /*New type declaration of variables
 Similarly in C++ typedef keyword
 PizzasListeners is a function which takes List of Pizzas and returns nothing
  */
-typealias PizzasListeners = (Pizzas: List<Pizzas>)->Unit
+typealias PizzasListeners = (Pizzas: List<PizzaModel>)->Unit
 
 //This class is used to manipulate data
 
 class PizzaService {
-    private var PizzasList: MutableList<Pizzas> = mutableListOf<Pizzas>() //List of pizzas
+    private var PizzasList: MutableList<PizzaModel> = mutableListOf<PizzaModel>() //List of pizzas
     private val listeners: MutableSet<PizzasListeners> = mutableSetOf<PizzasListeners>()
     //a variable that saves all listener of pizza
 
 
     init{
-        PizzasList.add(Pizzas(1, IMAGES[0],"PIZZA MOZZARELLA","Pizza Mozzarella is the classic of original pizza. Including the best song of it",55.0))
-        PizzasList.add(Pizzas(2, IMAGES[1],"JOYSKE DIAMOND","The calmest pizza. It includes groceries from Morio town.",35.0))
-        PizzasList.add(Pizzas(3, IMAGES[2],"STAR JOSTAR","Pizza with ora ora. The best choice for strong man.",60.2))
-        PizzasList.add(Pizzas(4, IMAGES[3],"JOHNATHAN's HONOR","Only for gentlemen.",100.0))
-        PizzasList.add(Pizzas(5, IMAGES[4],"FATHER AND HIS SON","For DIO and Giorno funs.",44.5))
+        PizzasList.add(PizzaModel(1, IMAGES[0],"PIZZA MOZZARELLA","Pizza Mozzarella is the classic of original pizza. Including the best song of it",55.0))
+        PizzasList.add(PizzaModel(2, IMAGES[1],"JOYSKE DIAMOND","The calmest pizza. It includes groceries from Morio town.",35.0))
+        PizzasList.add(PizzaModel(3, IMAGES[2],"STAR JOSTAR","Pizza with ora ora. The best choice for strong man.",60.2))
+        PizzasList.add(PizzaModel(4, IMAGES[3],"JOHNATHAN's HONOR","Only for gentlemen.",100.0))
+        PizzasList.add(PizzaModel(5, IMAGES[4],"FATHER AND HIS SONS","For DIO and Giorno funs.",44.5))
 
 
         // WE CAN PUT DATA BY FAKE OR BY MYSELF. (faker has bad options for pizza)
@@ -43,12 +43,12 @@ class PizzaService {
     }
 
     //get list
-    fun getPizza():List<Pizzas>{
+    fun getPizza():List<PizzaModel>{
         return PizzasList
     }
 
     //delete pizza from list
-    fun deletePizza(pizza: Pizzas){
+    fun deletePizza(pizza: PizzaModel){
         val indexToDelete: Int = PizzasList.indexOfFirst { it.id == pizza.id }
         if(indexToDelete!=-1){
             PizzasList.removeAt(indexToDelete)
@@ -57,7 +57,7 @@ class PizzaService {
     }
 
     //move pizza to up or down
-    fun movePizza(pizza:Pizzas, moveBy: Int){
+    fun movePizza(pizza: PizzaModel, moveBy: Int){
         val oldIndex:Int = PizzasList.indexOfFirst { it.id  == pizza.id}
         if(oldIndex == -1) return
         val newIndex : Int = oldIndex + moveBy
