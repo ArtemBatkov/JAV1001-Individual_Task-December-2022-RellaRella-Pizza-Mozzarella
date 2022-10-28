@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
 
 
         //promotions
-        var PromotionRecycler: RecyclerView = findViewById(R.id.special_promotion)
-        var SpecialPromotionAdapter = SpecialPromotionAdapter(this,SpecialPromotionService.getPromotionsList())
-        PromotionRecycler.adapter = SpecialPromotionAdapter
-        PromotionRecycler.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+//        var PromotionRecycler: RecyclerView = findViewById(R.id.special_promotion_recycler_view)
+//        var SpecialPromotionAdapter = SpecialPromotionAdapter(this,SpecialPromotionService.getPromotionsList())
+//        PromotionRecycler.adapter = SpecialPromotionAdapter
+//        PromotionRecycler.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
 
     }
 
