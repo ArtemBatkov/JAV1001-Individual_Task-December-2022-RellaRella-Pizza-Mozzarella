@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true" android:drawable="@drawable/back_button_pressed" />
+    <item android:state_pressed="false" android:drawable="@drawable/back_button_unpressed" />
+    <item android:drawable="@drawable/ic_baseline_arrow_back_24" android:gravity="center"/>
+
+</layer-list>

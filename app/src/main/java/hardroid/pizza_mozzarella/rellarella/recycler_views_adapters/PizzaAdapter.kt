@@ -21,12 +21,13 @@ import hardroid.pizza_mozzarella.rellarella.databinding.ItemPizzaBinding
 import hardroid.pizza_mozzarella.rellarella.databinding.ItemSpecialPromotionBinding
 import hardroid.pizza_mozzarella.rellarella.model.PizzaModel
 import hardroid.pizza_mozzarella.rellarella.model.SpecialPromotionService
+import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.RecyclerViewInterface
 import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromotionAdapter
 
 
 //Adapter creates ViewHolder objects as needed and sets the data for those views
 //The process of associating view to their data is called binding
- class PizzasAdapter(private val context: Context, private val PizzaList: List<PizzaModel>) : RecyclerView.Adapter<PizzasAdapter.PizzaViewHolder>() {
+ class PizzasAdapter(private val context: Context, private val PizzaList: List<PizzaModel>,private val recyclerViewInterface: RecyclerViewInterface) : RecyclerView.Adapter<PizzasAdapter.PizzaViewHolder>() {
 
 
 
@@ -52,6 +53,22 @@ import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromo
                LinearLayoutManager.HORIZONTAL,false)
            SpecialPromotionRV.adapter = ChildItem
            SpecialPromotionRV.layoutManager = LinearLayoutManager
+
+           PizzaButton.setOnClickListener{
+               itemView.performClick()
+           }
+
+           /*onPizzaClickItem*/
+           itemView.setOnClickListener{
+               if(recyclerViewInterface!=null){
+                   val position: Int = absoluteAdapterPosition
+
+                   //check for valid position
+                   if(position!=RecyclerView.NO_POSITION){
+                       recyclerViewInterface.OnItemClick(position)
+                   }
+               }
+           }
         }
     }
 

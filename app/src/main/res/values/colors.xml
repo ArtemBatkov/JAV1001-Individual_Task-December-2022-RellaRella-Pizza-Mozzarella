@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="black95">#95000000</color>
+    <color name="button_back_unpressed_color">#F8C896</color>
+
+    <color name="button_back_pressed_color">#9EFFE9</color>
+
+    <color name="button_add_to_cart_unpressed_color">#348740</color>
+    <color name="button_add_to_cart_pressed_color">#C1FFCA</color>
 </resources>

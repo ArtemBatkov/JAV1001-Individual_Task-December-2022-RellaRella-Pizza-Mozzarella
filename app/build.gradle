@@ -1,8 +1,14 @@
+
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id("kotlin-parcelize")
 }
+
+ 
+
 
 android {
     namespace 'hardroid.pizza_mozzarella.rellarella'
@@ -19,6 +25,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+
 
     buildTypes {
         release {
@@ -55,6 +63,7 @@ android {
 
 
 dependencies {
+
     implementation 'com.caverock:androidsvg:1.2.1'
 
     implementation 'com.android.support:cardview-v7'

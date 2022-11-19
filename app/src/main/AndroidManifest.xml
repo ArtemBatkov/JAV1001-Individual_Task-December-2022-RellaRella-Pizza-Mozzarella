@@ -31,7 +31,14 @@
                 android:value="" />
         </activity>
 
-
+        <activity
+            android:name=".recycler_views_adapters.PizzaSelected"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
 
 

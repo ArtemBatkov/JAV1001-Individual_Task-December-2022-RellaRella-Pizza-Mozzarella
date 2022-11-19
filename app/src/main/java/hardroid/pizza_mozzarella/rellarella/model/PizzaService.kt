@@ -17,29 +17,24 @@ class PizzaService {
     //a variable that saves all listener of pizza
 
 
+
     init{
-        PizzasList.add(PizzaModel(1, IMAGES[0],"PIZZA MOZZARELLA","Pizza Mozzarella is the classic of original pizza. Including the best song of it",55.0))
-        PizzasList.add(PizzaModel(2, IMAGES[1],"JOYSKE DIAMOND","The calmest pizza. It includes groceries from Morio town.",35.0))
-        PizzasList.add(PizzaModel(3, IMAGES[2],"STAR JOSTAR","Pizza with ora ora. The best choice for strong man.",60.2))
-        PizzasList.add(PizzaModel(4, IMAGES[3],"JOHNATHAN's HONOR","Only for gentlemen.",100.0))
-        PizzasList.add(PizzaModel(5, IMAGES[4],"FATHER AND HIS SONS","For DIO and Giorno funs.",44.5))
-
-
-        // WE CAN PUT DATA BY FAKE OR BY MYSELF. (faker has bad options for pizza)
-        /*
-        //Data Generation
-        val faker: Faker = Faker.instance()
-        IMAGES.shuffle()
-        Pizzas = (1..10).map{
-            Pizzas(
-                id = it.toLong(),
-                name = faker.name().name(),
-                description = faker.food().dish(),
-                photo = IMAGES[it % IMAGES.size],
-                price = faker.number().randomDouble(1,2,50)
-            )
-        }.toMutableList()
-        */
+        val AllIngredients = IngredientsList().getIngredientsList()
+        PizzasList.add(PizzaModel(1, IMAGES[0],"PIZZA MOZZARELLA","Pizza Mozzarella is the classic of original pizza. Including the best song of it",55.0,
+            listOf(AllIngredients[0],AllIngredients[4],AllIngredients[13],AllIngredients[10])
+        ))
+        PizzasList.add(PizzaModel(2, IMAGES[1],"JOYSKE DIAMOND","The calmest pizza. It includes groceries from Morio town.",35.0,
+            listOf(AllIngredients[11],AllIngredients[13],AllIngredients[5],AllIngredients[1])
+            ))
+        PizzasList.add(PizzaModel(3, IMAGES[2],"STAR JOSTAR","Pizza with ora ora. The best choice for strong man.",60.2,
+            listOf(AllIngredients[7],AllIngredients[6],AllIngredients[13],AllIngredients[3])
+        ))
+        PizzasList.add(PizzaModel(4, IMAGES[3],"JOHNATHAN's HONOR","Only for gentlemen.",100.0,
+            listOf(AllIngredients[0],AllIngredients[1],AllIngredients[2],AllIngredients[9],AllIngredients[11])
+            ))
+        PizzasList.add(PizzaModel(5, IMAGES[4],"FATHER AND HIS SONS","For DIO and Giorno funs.",44.5,
+            listOf(AllIngredients[10],AllIngredients[9],AllIngredients[5],AllIngredients[13])
+            ))
     }
 
     //get list
@@ -80,8 +75,11 @@ class PizzaService {
         listeners.forEach { it.invoke(PizzasList) }
     }
 
+
+
     //instead of static
-    companion object{
+    public companion object{
+
 
         private val IMAGES = mutableListOf(
             "https://lh3.googleusercontent.com/pw/AL9nZEUzXvAWnS4djr16cxX3zovVFa0-GiQt9IzzsIvHS4A4lTGCPCGKCxJCA7Zx-XL7eKVZhuv3rGt8KWoYE8dBABWvuLlscdMQ7D-BR3dDcu1sGDpNbhKUxpEdXMqwEuUBen9yK7Cg7ZpTZjBCaldU0Kdk=w728-h410-no?authuser=0",
@@ -90,6 +88,7 @@ class PizzaService {
             "https://lh3.googleusercontent.com/pw/AL9nZEVRSycJA3MHWT4Mk_UniIJAJBJonGUfTwb20hDqEZFPTwa22UWJ-9fgnkMn8Ct_zwz9mzhQ0yC7zrm7u2ZpkRilFhDZ8YlsC4T4kXYg_weZuuz3VJjOs4CB291oeFnWK2Z4mHr4r3SeMH2vKe54WEb2=w960-h540-no?authuser=0",
             "https://lh3.googleusercontent.com/pw/AL9nZEXK-vQUr4rAI75aN-kbfuBzlJtl8g1XAKhhq3_XnxD_dwpaaB1w0Kj9SuxbrWAwzq1HvFmjUrniSvJXkEuB_IUr4OT6u5KcdtplnJw7gx_QMHDBLjKvAXETenQfivBekaHKzhFeREuCNQXBMCW42MDh=w960-h540-no?authuser=0"
         )
+
 
 //        private val IMAGES = mutableListOf(
 //        "https://drive.google.com/drive/folders/1DioLOs7TeEjUXx2Hc1Ouihz-ykJzAJDs?usp=sharing"

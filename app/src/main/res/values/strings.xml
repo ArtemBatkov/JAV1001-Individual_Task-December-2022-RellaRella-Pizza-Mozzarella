@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RellaRella</string>
+    <string name="default_title">This is a title</string>
+    <string name="default_description">This is a description</string>
+    <string name="default_ingredients">This is some ingredients</string>
+    <string name="change_ingredients_txt">Change ingredients</string>
+    <string name="add_to_cart">Add to cart</string>
 </resources>
