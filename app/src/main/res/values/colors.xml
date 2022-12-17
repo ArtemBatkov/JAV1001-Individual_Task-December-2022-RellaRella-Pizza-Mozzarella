@@ -15,4 +15,6 @@
 
     <color name="button_add_to_cart_unpressed_color">#348740</color>
     <color name="button_add_to_cart_pressed_color">#C1FFCA</color>
+
+    <color name="play_color">#0096FF</color>
 </resources>

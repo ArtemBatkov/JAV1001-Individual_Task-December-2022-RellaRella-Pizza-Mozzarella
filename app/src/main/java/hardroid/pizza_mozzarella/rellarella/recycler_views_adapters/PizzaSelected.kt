@@ -10,11 +10,7 @@ import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,9 +18,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import hardroid.pizza_mozzarella.rellarella.MainActivity
 import hardroid.pizza_mozzarella.rellarella.R
-import hardroid.pizza_mozzarella.rellarella.model.Ingredient
-import hardroid.pizza_mozzarella.rellarella.model.IngredientsAdapter
-import hardroid.pizza_mozzarella.rellarella.model.PizzaService
+import hardroid.pizza_mozzarella.rellarella.model.*
+import hardroid.pizza_mozzarella.rellarella.model_cart.Order
+import hardroid.pizza_mozzarella.rellarella.orders
+import hardroid.pizza_mozzarella.rellarella.prefs
+import java.util.*
 
 class PizzaSelected : AppCompatActivity() {
     private lateinit var PizzaProfilePhoto: ImageView
@@ -39,9 +37,17 @@ class PizzaSelected : AppCompatActivity() {
     private lateinit var IngredientsDialog: Dialog
     private lateinit var IngredientRecyclerView: RecyclerView
 
+    private var IngredientsListWithChanges: MutableList<Ingredient> = mutableListOf()
+
+    private lateinit var IngredientAdapter:  IngredientsAdapter
+
+    private var AllIngredients: MutableList<Ingredient> = IngredientsList().getIngredientsList().toMutableList()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        val threshold = Ingredient(0,"Threshold",0.0)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_pizza_selected)
@@ -69,7 +75,7 @@ class PizzaSelected : AppCompatActivity() {
         var IngredientString: String = ""
         if(IngredientsList != null){
             for(i in 0 until IngredientsList.size){
-                IngredientString += "${IngredientsList.get(i).IngredientName} ${ if (i!=IngredientsList.size-1) "\n" else 0 }"
+                IngredientString += "${IngredientsList.get(i).IngredientName} ${ if (i!=IngredientsList.size-1) "\n" else ""}"
             }
         }
         IngredientsPizza.text = IngredientString
@@ -80,7 +86,7 @@ class PizzaSelected : AppCompatActivity() {
         Glide.with(PizzaProfilePhoto)
             .load(current_pizza_photo)
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-            .centerInside()
+            .centerCrop()
             .placeholder(R.drawable.ic_default_pizza)
             .error(R.drawable.ic_default_pizza)
             .into(PizzaProfilePhoto)
@@ -107,9 +113,46 @@ class PizzaSelected : AppCompatActivity() {
 
         IngredientRecyclerView = IngredientsDialog.findViewById(R.id.ingredients_list)
         if(IngredientsList!=null){
-            var IngredientAdapter = IngredientsAdapter(this, IngredientsList.toList())
+
+            IngredientsListWithChanges = IngredientsList.toMutableList()
+            IngredientsListWithChanges.add(threshold);
+            JoinIngredients();
+
+
+              IngredientAdapter = IngredientsAdapter(object: IngredientsActionListener{
+
+                override fun onIngredientDeleted(ingredient: Ingredient) {
+//                    Toast.makeText(this@PizzaSelected, "you picked: ${ingredient.IngredientName} and button delete",
+//                        Toast.LENGTH_LONG).show()
+                    val index = IngredientsListWithChanges.indexOfFirst { it.IngredientID == ingredient.IngredientID }
+                    IngredientsListWithChanges.removeAt(index)
+                    JoinIngredients();
+                    UpdateAdapterList(IngredientsListWithChanges.toList(), index, "remove")
+
+                    if(IngredientsListWithChanges[0].IngredientName.equals("Threshold")){
+                        //when the threshold at the top
+                        //we need to say that pizza can't be without ingredients and force to reload the list
+                        IngredientsListWithChanges.clear()
+                        IngredientsListWithChanges = IngredientsList.toMutableList()
+                        IngredientsListWithChanges.add(threshold)
+                        JoinIngredients()
+                        UpdateAdapterList(IngredientsListWithChanges,position,"force to reload")
+                        Toast.makeText(this@PizzaSelected, "A pizza should have at least one ingredient except dough!",Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onIngredientAdded(ingredient: Ingredient) {
+                    val ThresholdPosition = IngredientsListWithChanges.indexOfFirst { it.IngredientName.equals("Threshold")}
+                    IngredientsListWithChanges = IngredientsListWithChanges.subList(0,ThresholdPosition).toMutableList()
+                    IngredientsListWithChanges.add(ingredient)
+                    IngredientsListWithChanges.add(threshold)
+                    JoinIngredients();
+                    UpdateAdapterList(IngredientsListWithChanges.toList(),ThresholdPosition,"add")
+                }
+            },IngredientsListWithChanges.toList())
             IngredientRecyclerView.adapter = IngredientAdapter
             IngredientRecyclerView.layoutManager = LinearLayoutManager(IngredientsDialog.context)
+
         }
 
 
@@ -122,6 +165,27 @@ class PizzaSelected : AppCompatActivity() {
                 IngredientsDialog.show()
             }
         })
+
+
+        AddToCart.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(p0: View?) {
+                val from = 0
+                val to = IngredientsListWithChanges.indexOfFirst { it.IngredientName.equals("Threshold") }
+                val Pref = prefs.getPref()
+                val keySP = prefs.keySpecialPromotion
+                var HasDiscount = false
+                if (Pref != null) {
+                    HasDiscount = Pref.getBoolean(keySP, false)
+                }
+                val newPrice: Double = if(HasDiscount) Price*0.5 else Price
+                val newOrder = Order(current_pizza_photo.toString(), Price, newPrice, IngredientsListWithChanges.subList(from,to), 1)
+                orders.addNewOrder(newOrder)
+                gotoMainActivity()
+            }
+
+        })
+
+
 
     }
     override fun onBackPressed() {
@@ -139,5 +203,35 @@ class PizzaSelected : AppCompatActivity() {
        }catch (_:Exception){}
     }
 
+    private fun UpdateAdapterList(newList: List<Ingredient>, position: Int, type: String) {
+        if(IngredientAdapter!=null){
+            IngredientAdapter.UpdateListElements(newList)
+            when(type){
+                "remove" ->{
+                    IngredientAdapter.notifyItemRemoved(position)
+                }
+                "add"->{
+                    IngredientAdapter.notifyDataSetChanged()
+                }
+                "force to reload"->{
+                    IngredientAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
+    private fun JoinIngredients(){
+        for(i in 0 until AllIngredients.size){
+            if(!IngredientsListWithChanges.contains(AllIngredients[i])){
+                //if the current list doesn't contain the current AllIngredient item
+                IngredientsListWithChanges.add(AllIngredients[i])
+            }
+        }
+    }
+
+
+
 
 }
+
+

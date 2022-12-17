@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
 
     <!-- Delete Header-->
-    <style name="Theme.RellaRella" parent="Theme.AppCompat.Light.NoActionBar">        <!-- Primary brand color. -->
+    <style name="Theme.RellaRella" parent="Theme.AppCompat.Light">        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -21,7 +21,7 @@
 
     </style>
 
-    <style name="Theme.DialogAnimation"  parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.DialogAnimation"  parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowEnterAnimation">@anim/slideup</item>
         <item name="android:windowExitAnimation">@anim/slidedown</item>
     </style>

@@ -43,7 +43,9 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/ic_default_pizza"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:elevation="0dp"/>
+
        </androidx.cardview.widget.CardView>
 
 
@@ -102,6 +104,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Choose"
+                android:backgroundTint="#5C6BC0"
+                android:background="@drawable/unique_button_form"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:gravity="center"

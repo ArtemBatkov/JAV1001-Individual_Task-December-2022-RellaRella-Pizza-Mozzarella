@@ -1,43 +1,131 @@
 package hardroid.pizza_mozzarella.rellarella.model
 
 import android.content.Context
+import android.media.Image
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import hardroid.pizza_mozzarella.rellarella.R
+import hardroid.pizza_mozzarella.rellarella.databinding.IngredientItemBinding
+import hardroid.pizza_mozzarella.rellarella.databinding.ItemPizzaBinding
+import hardroid.pizza_mozzarella.rellarella.databinding.ItemPizzaSelectedBinding
 import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.RecyclerViewInterface
 
-class IngredientsAdapter(
-    private val context: Context,
-    private var IngredientsList: List<Ingredient> ) : RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
 
-    fun UpdateListElements(newListItems: List<Ingredient>){
-        this.IngredientsList = newListItems
+interface IngredientsActionListener{
+    fun onIngredientAdded(ingredient: Ingredient)
+    fun onIngredientDeleted(ingredient: Ingredient)
+}
+
+class IngredientsAdapter(
+    private val ingredientsListener:IngredientsActionListener,
+    private var IngredientsList: List<Ingredient> )
+    : RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>(),
+    View.OnClickListener {
+
+
+    fun UpdateListElements(newListItems: List<Ingredient>) {
+        this.IngredientsList =  newListItems
     }
 
-    inner class IngredientsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var Text:TextView
-        init {
-            super.itemView
-            Text = itemView.findViewById(R.id.ingredient)
+
+    private var RemainIngredients: MutableList<Ingredient> = mutableListOf()
+
+
+    override fun onClick(v: View) {
+        val ingredient = v.tag as Ingredient
+        when(v.id){
+            R.id.delete_ingredient ->{
+                //when user clicked delete
+                ingredientsListener.onIngredientDeleted(ingredient)
+            }
+            R.id.add_ingredient ->{
+                //when the user want to add the ingredient
+                ingredientsListener.onIngredientAdded(ingredient)
+            }
+            else -> {
+                //else ids
+            }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientsViewHolder {
-        val inflater: LayoutInflater = LayoutInflater.from(context)
-        val view: View = inflater.inflate(R.layout.ingredient_item, parent, false)
-        return  IngredientsViewHolder(view)
+    class IngredientsViewHolder(val binding: IngredientItemBinding):RecyclerView.ViewHolder(binding.root){
+
     }
 
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientsViewHolder {
+        val inflater: LayoutInflater = LayoutInflater.from(parent.context)
+        val binding: IngredientItemBinding = IngredientItemBinding.inflate(inflater, parent, false)
+        //listeners
+        binding.root.setOnClickListener(this)
+        binding.deleteIngredient.setOnClickListener(this)
+        binding.addIngredient.setOnClickListener(this)
+
+        return  IngredientsViewHolder(binding)
+    }
+
+
+
+
+
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
-        val CurrentItem = IngredientsList[position]
-        holder.Text.text = "name: ${CurrentItem.IngredientName}\ncost: $${CurrentItem.IngredientPrice}"
+        val CurrentIngredient = IngredientsList[position]
+        with(holder.binding){
+            holder.itemView.tag = CurrentIngredient
+            deleteIngredient.tag = CurrentIngredient
+            addIngredient.tag = CurrentIngredient
+            ingredient.text =  "name: ${CurrentIngredient.IngredientName}\ncost: $${CurrentIngredient.IngredientPrice}"
+
+            //threshold active or passive?
+            if(CurrentIngredient.IngredientName.equals("Threshold")){
+                separationLayout.visibility = View.VISIBLE
+                contentLayout.visibility = View.GONE
+
+            }
+            else{
+                separationLayout.visibility = View.GONE
+                contentLayout.visibility = View.VISIBLE
+            }
+
+            //change from delete to add and vice-versa
+            var ThresholdPosition = IngredientsList.indexOfFirst { it.IngredientName.equals("Threshold") }
+
+
+            if(position>ThresholdPosition){
+                deleteIngredient.visibility = View.GONE
+                addIngredient.visibility = View.VISIBLE
+            }
+            else{
+                deleteIngredient.visibility = View.VISIBLE
+                addIngredient.visibility = View.GONE
+            }
+
+        }
+
+
     }
 
     override fun getItemCount(): Int {
        return  IngredientsList.size
     }
+
+    private fun FillRemainIngredients(){
+        val AllIngredients = IngredientsList().getIngredientsList()
+        for(i in 0 until AllIngredients.size){
+            if(!IngredientsList.contains(AllIngredients[i])){
+                //if the current list doesn't contain the current AllIngredient item
+                RemainIngredients.add(AllIngredients[i])
+            }
+        }
+    }
+
+
+
 }

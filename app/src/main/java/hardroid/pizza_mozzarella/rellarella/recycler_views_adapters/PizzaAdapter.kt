@@ -2,9 +2,6 @@ package hardroid.pizza_mozzarella.rellarella
 
 
 import android.content.Context
-import android.opengl.Visibility
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +9,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import hardroid.pizza_mozzarella.rellarella.databinding.ItemPizzaBinding
-import hardroid.pizza_mozzarella.rellarella.databinding.ItemSpecialPromotionBinding
 import hardroid.pizza_mozzarella.rellarella.model.PizzaModel
 import hardroid.pizza_mozzarella.rellarella.model.SpecialPromotionService
 import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.RecyclerViewInterface
@@ -27,7 +21,8 @@ import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromo
 
 //Adapter creates ViewHolder objects as needed and sets the data for those views
 //The process of associating view to their data is called binding
- class PizzasAdapter(private val context: Context, private val PizzaList: List<PizzaModel>,private val recyclerViewInterface: RecyclerViewInterface) : RecyclerView.Adapter<PizzasAdapter.PizzaViewHolder>() {
+ class PizzasAdapter(private val context: Context, private val PizzaList: List<PizzaModel>,private val recyclerViewInterface: RecyclerViewInterface,
+                        private val promotionClick: PromotionClick) : RecyclerView.Adapter<PizzasAdapter.PizzaViewHolder>() {
 
 
 
@@ -48,7 +43,7 @@ import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromo
             PizzaButton = itemView.findViewById(R.id.pizza_button)
             SpecialPromotionRV = itemView.findViewById(R.id.special_promotion_recycler_view)
 
-           var ChildItem  = SpecialPromotionAdapter(context, SpecialPromotionService().getPromotionsList())
+           var ChildItem  = SpecialPromotionAdapter(context, SpecialPromotionService().getPromotionsList(),promotionClick)
            var LinearLayoutManager = LinearLayoutManager(context,
                LinearLayoutManager.HORIZONTAL,false)
            SpecialPromotionRV.adapter = ChildItem

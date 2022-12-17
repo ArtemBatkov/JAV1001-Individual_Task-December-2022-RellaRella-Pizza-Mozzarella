@@ -2,6 +2,9 @@ package hardroid.pizza_mozzarella.rellarella.model
 
 class IngredientsList {
     private val IngredientsList: List<Ingredient> = listOf(
+
+
+
         //Meat
         Ingredient(1,"Italian sausages",1.2),
         Ingredient(2,"Beef",1.2),
