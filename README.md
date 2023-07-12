@@ -131,25 +131,57 @@ Screenshot 11 -- The added pizza is displayed in the order.
 <br><br>
 </div>
  
-#### &emsp;   The quantity of each pizza can be changed by clicking "+" or "-" buttons. It pushes to change the overall order price at the bottom.
+#### &emsp;   The quantity of each pizza can be changed by clicking "+" or "-" buttons, or you may delete a pizza if you changed your mind. It pushes to change the overall order price at the bottom.
 
 <div align="center"> 
 <img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/8dc3a60a-351f-44c0-923d-fe94b3a25629"  width=25% height=25%>
 <br>
-Screenshot 11 -- The added pizza is displayed in the order.  
+Screenshot 12 -- The added pizza is displayed in the order.  
 <br><br>
 </div>
  
+#### &emsp;   To make an order buy click the "Make Order" button. [Remember] All items in the list will be removed
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/e0afa745-817d-4178-a2ab-dd5a232cb063"  width=25% height=25%>
+<br>
+Screenshot 13 -- Cool! Your order was created.
+<br><br>
+</div>
 
+#### &emsp;   Go back to the main menu, and click on the first ad which suggests a 50% offer.
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/34164b0b-8307-4dfa-ba2d-c869db3d005d"  width=65% height=65%>
+<br>
+Screenshot 14 -- You have to watch a video to obtain a 50% discount for the first order. Before starting, you can link to the original author by clicking on "author".
+<br><br>
+</div>
 
+### &emsp;   To begin watching the video, click "play". The main condition is to reach the end, otherwise, the discount will not be applied. 
 
- 
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/f40a4804-03a9-4e5b-8256-a4da0db823a0"  width=65% height=65%>
+<br>
+Screenshot 15 -- Put on headphones and ENJOY IT!
+<br><br>
+</div>
 
+#### &emsp;   You can go back anytime while listening, but the offer will be applied when the video has ended. 
 
+### &emsp;    It seems that a discount wasn't added but it is not true. When a new pizza will be added to the cart, you will see changes.
 
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/a88338a6-5136-48c6-b2d9-cf197af786a8"  width=25% height=25%>
+<br>
+Screenshot 16 -- WOW! You got a 50% offer. Congrats! 
+<br><br>
+</div>
 
-
-
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/20c953b0-fcae-4fee-a615-dc68a72e6557"  width=25% height=25%>
+<br>
+Screenshot 17 -- Congrats on your first order of our RellaRella pizza!
+<br><br>
+</div>
 
 
 
