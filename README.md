@@ -51,7 +51,35 @@ Screenshot 2 -- All ads are scrollable here. This is an example of gesture scrol
 Screenshot 3 -- Ads can be scrolled forward or backward by pushing arrow buttons as well.
 <br><br>
 
-
-
 </div>
+
+#### &emsp; The Navigation bar has 3 options. Login/signup, cart, and map. 
+#### &emsp;  Let's navigate to the sign-in page.
+
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/a1012174-9d90-4fd8-a860-d78f931359fc"  width=25% height=25%>
+<br>
+Screenshot 4 -- Here is the login page.   
+<br><br>
+</div>
+
+#### &emsp;  Let's navigate to the cart page. 
+#### &emsp;  Please note, it is empty because nothing was selected.
+
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/d73ff45d-9d85-4c91-8d42-96fa837c5a85"  width=25% height=25%>
+<br>
+Screenshot 5 -- Here is the cart page.   
+<br><br>
+</div>
+
+#### &emsp;  Let's navigate to the map page. 
+
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/d73ff45d-9d85-4c91-8d42-96fa837c5a85"  width=25% height=25%>
+<br>
+Screenshot 5 -- Here is the cart page.   
+<br><br>
+</div>
+
  
