@@ -21,6 +21,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.card.MaterialCardView
 import com.joanzapata.iconify.widget.IconButton
 import hardroid.pizza_mozzarella.rellarella.App.Companion.getCount
 import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.PizzaSelected
@@ -33,6 +35,8 @@ import hardroid.pizza_mozzarella.rellarella.model_cart.OrderList
 
 interface PromotionClick{
     fun onClick(promotion: SpecialPromotionModel, position: Int)
+
+
 }
 
 
@@ -48,6 +52,9 @@ class MainActivity : AppCompatActivity() , RecyclerViewInterface, PromotionClick
 
     val SpecialPromotionService = SpecialPromotionService()
 
+    //lateinit var BackImage: MaterialCardView
+
+    private lateinit var BottomNavigationMenu: BottomNavigationView
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -65,7 +72,6 @@ class MainActivity : AppCompatActivity() , RecyclerViewInterface, PromotionClick
                 gotoOrders()
             }
         })
-
         return  true
     }
 
@@ -81,11 +87,38 @@ class MainActivity : AppCompatActivity() , RecyclerViewInterface, PromotionClick
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //BackImage = findViewById(R.id.backimage)
 
 //        CartButton = findViewById(R.id.add_to_cart)
 //        OrderQuantity = findViewById(R.id.cart_quantity)
 
 //        OrderQuantity.text = orders.getOrderList().count().toString()
+
+        BottomNavigationMenu = findViewById(R.id.bottom_menu)
+        //try to update bottom menu
+        val cartItem: MenuItem = BottomNavigationMenu.menu.findItem(R.id.cart)
+        cartItem.title = orders.getOrderList().count().toString()
+
+
+        BottomNavigationMenu.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.cart -> {
+                    gotoOrders()
+                    true
+                }
+                R.id.account -> {
+                    gotoAccount()
+                    true
+                }
+                R.id.map -> {
+                    gotoMap()
+                    true
+                }
+                else -> false
+            }
+        }
+
+
 
         service = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         if (!IsOnline()) {
@@ -154,6 +187,28 @@ class MainActivity : AppCompatActivity() , RecyclerViewInterface, PromotionClick
         }
     }
 
+    private fun gotoAccount(){
+        try {
+            var intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+            finish()
+        }
+        catch (ex:Exception){
+            print(ex.message)
+        }
+    }
+
+    private fun gotoMap(){
+        try {
+            var intent = Intent(this, MapPage::class.java)
+            startActivity(intent)
+            finish()
+        }
+        catch (ex:Exception){
+            print(ex.message)
+        }
+    }
+
 
     private fun setUpPizzaModels() {
         PizzaModels = PizzaService.getPizza()
@@ -208,6 +263,9 @@ class MainActivity : AppCompatActivity() , RecyclerViewInterface, PromotionClick
             builder.create().show()
         }
     }
+
+
+
 
     private var PromotionAlreadySeen = false
 

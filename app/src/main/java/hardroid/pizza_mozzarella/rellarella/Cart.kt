@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import hardroid.pizza_mozzarella.rellarella.decorator.UIDecorator
 import hardroid.pizza_mozzarella.rellarella.model_cart.Order
 import hardroid.pizza_mozzarella.rellarella.model_cart.OrderActionListener
 import hardroid.pizza_mozzarella.rellarella.model_cart.OrderAdapter
@@ -34,6 +35,7 @@ class Cart : AppCompatActivity()  {
         OverallPrice = findViewById(R.id.overall_price)
         MakeOrder = findViewById(R.id.confirm_order)
 
+
         CartOrderAdapter = OrderAdapter(object : OrderActionListener{
             override fun onOrderDeleted(order: Order) {
                 val position = orders.getOrderPosition(order)
@@ -54,7 +56,8 @@ class Cart : AppCompatActivity()  {
                     val currentValue = orders.getQuantity(order)
                     if(currentValue != -1){
                         orders.setQuantity(order,currentValue+1)
-                        CartOrderAdapter.notifyItemChanged(position)
+                        //CartOrderAdapter.notifyItemChanged(position)
+                        CartOrderAdapter.notifyDataSetChanged()
                         CalculateOverallPrice()
                     }
                 }
@@ -68,7 +71,7 @@ class Cart : AppCompatActivity()  {
                 if(position != -1){
                     val currentValue = orders.getQuantity(order)
                     if(currentValue != -1){
-                        val new_quantity = if(currentValue-1<0){
+                        val new_quantity = if(currentValue-1<1){
                             1
                         } else {
                             currentValue-1
@@ -117,56 +120,18 @@ class Cart : AppCompatActivity()  {
     }
 
     fun CalculateOverallPrice(){
-        val list = orders.getOrderList()
+        val list =  orders.getOrderList() //orders.getOrderList()
         var sum = 0.0
         for (i in 0 until list.count()){
-            sum += list[i].order_new_price * list[i].order_quantity
+            sum += list[i].final_price * list[i].order_quantity
         }
-        OverallPrice.setText("${ConvertPrice(sum)}")
+        OverallPrice.setText(UIDecorator().getTextPrice(sum))
     }
 
-    fun ConvertPrice(price:Double):String{
-        return "$ ${if(price%1.0==0.0) price.toInt() else price}"
-    }
 
-    private fun SaveOrders(){
-        val Pref = prefs.getPref()
-        if (Pref != null) {
-            val keyOrders = prefs.keyOrders
-            prefs.put(orders.getOrderList(),keyOrders)
-        }
-    }
 
-    override fun onPause() {
-        super.onPause()
-//        SaveOrders()
-    }
 
-    private fun LoadData() {
-        val Pref = prefs.getPref()
-        val keySP = prefs.keySpecialPromotion
-        if (Pref != null) {
-            val keyOrder = prefs.keyOrders
-            val listOrders: List<Order>? = prefs.get<List<Order>>(keyOrder)
 
-            var builder = GsonBuilder()
-            val gson = builder.create()
-            Log.i("GSON", gson.toJson(listOrders?.take(1)));
-            var message = "{\"order_ingredients\":[{\"IngredientID\":1.0,\"IngredientName\":\"Italian sausages\",\"IngredientPrice\":1.2},{\"IngredientID\":5.0,\"IngredientName\":\"Bacon\",\"IngredientPrice\":1.0},{\"IngredientID\":14.0,\"IngredientName\":\"Mozzarella rella rella\",\"IngredientPrice\":2.5},{\"IngredientID\":11.0,\"IngredientName\":\"3 cheese blend\",\"IngredientPrice\":1.5}],\"order_new_price\":55.0,\"order_old_price\":55.0,\"order_photo\":\"https://lh3.googleusercontent.com/pw/AL9nZEUzXvAWnS4djr16cxX3zovVFa0-GiQt9IzzsIvHS4A4lTGCPCGKCxJCA7Zx-XL7eKVZhuv3rGt8KWoYE8dBABWvuLlscdMQ7D-BR3dDcu1sGDpNbhKUxpEdXMqwEuUBen9yK7Cg7ZpTZjBCaldU0Kdk\\u003dw728-h410-no?authuser\\u003d0\",\"order_quantity\":1.0}]"
 
-//            val some = stringToArray(message,OrderList).get(0).getName()
-
-            if (listOrders != null) {
-
-            }
-            var a = 3
-            print(a)
-        }
-    }
-
-//    fun <T> stringToArray(s: String?, clazz: Class<Array<T>>?): MutableList<Array<T>> {
-//        val arr = Gson().fromJson(s, clazz)
-//        return Arrays.asList(arr) //or return Arrays.asList(new Gson().fromJson(s, clazz)); for a one-liner
-//    }
 
 }

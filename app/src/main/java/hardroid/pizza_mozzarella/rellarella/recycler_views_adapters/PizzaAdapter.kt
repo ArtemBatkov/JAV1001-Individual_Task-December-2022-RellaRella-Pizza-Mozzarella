@@ -13,16 +13,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import hardroid.pizza_mozzarella.rellarella.decorator.UIDecorator
 import hardroid.pizza_mozzarella.rellarella.model.PizzaModel
 import hardroid.pizza_mozzarella.rellarella.model.SpecialPromotionService
 import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.RecyclerViewInterface
 import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromotionAdapter
 
 
+interface LeftRightClick{
+    fun onLeftClick(position: Int)
+}
+
 //Adapter creates ViewHolder objects as needed and sets the data for those views
 //The process of associating view to their data is called binding
  class PizzasAdapter(private val context: Context, private val PizzaList: List<PizzaModel>,private val recyclerViewInterface: RecyclerViewInterface,
-                        private val promotionClick: PromotionClick) : RecyclerView.Adapter<PizzasAdapter.PizzaViewHolder>() {
+                        private val promotionClick: PromotionClick) : RecyclerView.Adapter<PizzasAdapter.PizzaViewHolder>() , LeftRightClick{
 
 
 
@@ -34,16 +39,23 @@ import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromo
        lateinit var PizzaPrice: TextView;
        lateinit var PizzaButton: Button;
         lateinit var SpecialPromotionRV: RecyclerView
-       init {
-            super.itemView
-            PizzaPhoto = itemView.findViewById(R.id.pizza_photo)
-            PizzaTitle = itemView.findViewById(R.id.pizza_title)
-            PizzaDescription = itemView.findViewById(R.id.pizza_description)
-            PizzaPrice = itemView.findViewById(R.id.pizza_price)
-            PizzaButton = itemView.findViewById(R.id.pizza_button)
-            SpecialPromotionRV = itemView.findViewById(R.id.special_promotion_recycler_view)
+        lateinit var LeftScroll: ImageView
+        lateinit var RightScroll: ImageView
 
-           var ChildItem  = SpecialPromotionAdapter(context, SpecialPromotionService().getPromotionsList(),promotionClick)
+
+
+       init {
+           super.itemView
+           PizzaPhoto = itemView.findViewById(R.id.pizza_photo)
+           PizzaTitle = itemView.findViewById(R.id.pizza_title)
+           PizzaDescription = itemView.findViewById(R.id.pizza_description)
+           PizzaPrice = itemView.findViewById(R.id.pizza_price)
+           PizzaButton = itemView.findViewById(R.id.pizza_button)
+           SpecialPromotionRV = itemView.findViewById(R.id.special_promotion_recycler_view)
+           LeftScroll = itemView.findViewById(R.id.goleft)
+           RightScroll = itemView.findViewById(R.id.goright)
+
+           var ChildItem  = SpecialPromotionAdapter(context, SpecialPromotionService().getPromotionsList(),promotionClick,LeftScroll, RightScroll)
            var LinearLayoutManager = LinearLayoutManager(context,
                LinearLayoutManager.HORIZONTAL,false)
            SpecialPromotionRV.adapter = ChildItem
@@ -64,8 +76,16 @@ import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromo
                    }
                }
            }
+
+
+
+
+
+
         }
     }
+
+
 
 
 
@@ -92,28 +112,36 @@ import hardroid.pizza_mozzarella.rellarella.recycler_views_adapters.SpecialPromo
             Glide.with(holder.PizzaPhoto.context)
                 .load(CurrentPizza.photo)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .circleCrop()
                 .placeholder(R.drawable.ic_default_pizza)
                 .error(R.drawable.ic_default_pizza)
-                .into(holder.PizzaPhoto)
+                .into(holder.PizzaPhoto) //.circleCrop()
         }
         else {
             holder.PizzaPhoto.setImageResource(R.drawable.ic_default_pizza)
         }
         holder.PizzaTitle.text = CurrentPizza.name
         holder.PizzaDescription.text = CurrentPizza.description
-        holder.PizzaPrice.text = "$${if (CurrentPizza.price%1.0==0.0) CurrentPizza.price.toInt().toString() else CurrentPizza.price.toString()}"
+        holder.PizzaPrice.text = UIDecorator().getTextPrice(CurrentPizza.price, context);
 
 
         /*Try something new*/
         if(position == 0){
             holder.SpecialPromotionRV.visibility = View.VISIBLE
+            holder.LeftScroll.visibility = View.VISIBLE
+            holder.RightScroll.visibility = View.VISIBLE
         }
         else{
             holder.SpecialPromotionRV.visibility = View.GONE
+            holder.LeftScroll.visibility = View.GONE
+            holder.RightScroll.visibility = View.GONE
         }
 
+
         Log.d("positions: ","current position is : $position")
+    }
+
+    override fun onLeftClick(position: Int) {
+
     }
 
 }

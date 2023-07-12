@@ -22,8 +22,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/button_back"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp" />
+            android:layout_margin="5dp" />
     </FrameLayout>
 
     <!--Title Description and ingredients -->
@@ -32,15 +31,15 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
-        
+
         <TextView
             android:id="@+id/title_pizza"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/default_title"
             android:gravity="start"
-            android:paddingStart="20dp"
-            android:textSize="24sp"
+            android:paddingStart="@dimen/padding_title"
+            android:textSize="@dimen/fontsize_title"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textAllCaps="false"/>
@@ -51,7 +50,8 @@
             android:layout_height="wrap_content"
             android:text="@string/default_description"
             android:gravity="start"
-            android:textSize="16sp"
+            android:paddingStart="@dimen/padding_description"
+            android:textSize="@dimen/fontsize_description_selectpage"
             android:textColor="@color/black"
             android:textAllCaps="false"/>
 
@@ -61,7 +61,8 @@
             android:layout_height="wrap_content"
             android:text="@string/default_ingredients"
             android:gravity="start"
-            android:textSize="16sp"
+            android:textSize="@dimen/fontsize_description"
+            android:paddingStart="@dimen/padding_ingredient"
             android:textColor="@color/black"
             android:textAllCaps="false"/>
     </LinearLayout>

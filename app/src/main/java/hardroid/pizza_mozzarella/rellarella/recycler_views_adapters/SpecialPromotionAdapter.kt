@@ -16,7 +16,7 @@ import hardroid.pizza_mozzarella.rellarella.model.SpecialPromotionModel
 
 
 class SpecialPromotionAdapter(private val context: Context, private val PromotionsList: List<SpecialPromotionModel>,
-                              var promotionClick: PromotionClick
+                              var promotionClick: PromotionClick, private val left:ImageView, private val right:ImageView
 ): RecyclerView.Adapter<SpecialPromotionAdapter.SpecialPromotionViewHolder>(){
 
 
@@ -36,8 +36,34 @@ class SpecialPromotionAdapter(private val context: Context, private val Promotio
                 }
             }
             })
+            left.setOnClickListener(View.OnClickListener { view ->
+                val position = if(absoluteAdapterPosition < 0) getCurrentPosition()-1 else absoluteAdapterPosition
+                val count = PromotionsList.size - 1
+                val desirePosition = if (position-1 < 0) count else position-1;
+
+                (itemView.parent as? RecyclerView)?.scrollToPosition(desirePosition)
+                notifyDataSetChanged()
+            })
+
+            right.setOnClickListener(View.OnClickListener { view ->
+                val count = PromotionsList.size - 1
+                val position = if(absoluteAdapterPosition < 0) getCurrentPosition()-1 else absoluteAdapterPosition
+                val desirePosition = if (position+1 > count) 0 else position+1
+                (itemView.parent as? RecyclerView)?.scrollToPosition(desirePosition)
+                notifyDataSetChanged()
+            })
+
+        }
+        fun getCurrentPosition(): Int {
+            return CurrentPosition
+        }
+
+        fun bind(position: Int){
+            CurrentPosition = position
         }
     }
+
+    private var CurrentPosition: Int = 0
 
     override fun getItemCount(): Int {
         return  PromotionsList.size
@@ -50,6 +76,7 @@ class SpecialPromotionAdapter(private val context: Context, private val Promotio
     }
 
     override fun onBindViewHolder(holder: SpecialPromotionViewHolder, position: Int) {
+        holder.bind(position)
         val CurrentPromotion = PromotionsList[position]
         if (CurrentPromotion.photo.isNotBlank()) {
             Glide.with(holder.PromotionPhoto.context)
@@ -63,7 +90,31 @@ class SpecialPromotionAdapter(private val context: Context, private val Promotio
             holder.PromotionPhoto.setImageResource(R.drawable.sale_icon)
         }
 
+//        left.setOnClickListener(View.OnClickListener { view ->
+//            val var1:Int = holder.absoluteAdapterPosition
+//            val var2:Int = holder.position
+//            val var3:Int = holder.bindingAdapterPosition
+//            val var4:Int = holder.layoutPosition
+//            val var5:Int = holder.oldPosition
+//            val var6:Int = holder.adapterPosition
+//            val var7:Int  = holder.getCurrentPosition()
+//        })
+//
+//        right.setOnClickListener(View.OnClickListener { view ->
+//            val var1:Int = holder.absoluteAdapterPosition
+//            val var2:Int = holder.position
+//            val var3:Int = holder.bindingAdapterPosition
+//            val var4:Int = holder.layoutPosition
+//            val var5:Int = holder.oldPosition
+//            val var6:Int = holder.adapterPosition
+//            val var7:Int  = holder.getCurrentPosition()
+//        })
+
+        //notifyDataSetChanged()
+        holder.setIsRecyclable(false)
     }
+
+
 
 
 

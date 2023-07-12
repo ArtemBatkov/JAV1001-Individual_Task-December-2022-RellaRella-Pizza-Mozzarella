@@ -7,7 +7,7 @@ import java.util.*
 Similarly in C++ typedef keyword
 PizzasListeners is a function which takes List of Pizzas and returns nothing
  */
-typealias PizzasListeners = (Pizzas: List<PizzaModel>)->Unit
+typealias PizzasListeners = (Pizzas: List<PizzaModel>) -> Unit
 
 //This class is used to manipulate data
 
@@ -17,68 +17,107 @@ class PizzaService {
     //a variable that saves all listener of pizza
 
 
-
-    init{
+    init {
         val AllIngredients = IngredientsList().getIngredientsList()
-        PizzasList.add(PizzaModel(1, IMAGES[0],"PIZZA MOZZARELLA","Pizza Mozzarella is the classic of original pizza. Including the best song of it",55.0,
-            listOf(AllIngredients[0],AllIngredients[4],AllIngredients[13],AllIngredients[10])
-        ))
-        PizzasList.add(PizzaModel(2, IMAGES[1],"JOYSKE DIAMOND","The calmest pizza. It includes groceries from Morio town.",35.0,
-            listOf(AllIngredients[11],AllIngredients[13],AllIngredients[5],AllIngredients[1])
-            ))
-        PizzasList.add(PizzaModel(3, IMAGES[2],"STAR JOSTAR","Pizza with ora ora. The best choice for strong man.",60.2,
-            listOf(AllIngredients[7],AllIngredients[6],AllIngredients[13],AllIngredients[3])
-        ))
-        PizzasList.add(PizzaModel(4, IMAGES[3],"JOHNATHAN's HONOR","Only for gentlemen.",100.0,
-            listOf(AllIngredients[0],AllIngredients[1],AllIngredients[2],AllIngredients[9],AllIngredients[11])
-            ))
-        PizzasList.add(PizzaModel(5, IMAGES[4],"FATHER AND HIS SONS","For DIO and Giorno funs.",44.5,
-            listOf(AllIngredients[10],AllIngredients[9],AllIngredients[5],AllIngredients[13])
-            ))
+        PizzasList.add(
+            PizzaModel(
+                1,
+                IMAGES[0],
+                "PIZZA MOZZARELLA",
+                "Description: Indulge in the classic \"Pizza Mozzarella\" adorned with Italian sausages, crispy bacon, a blend of cheddar and mozzarella cheese, and a spicy kick of jalapenos. This pizza is not complete without a nod to the talented Gyro Zeppeli.",
+                11.99,
+                listOf(AllIngredients[0], AllIngredients[4], AllIngredients[13], AllIngredients[10])
+            )
+        )
+        PizzasList.add(
+            PizzaModel(
+                2,
+                IMAGES[1],
+                "Six Shooter Special",
+                "Experience a taste sensation inspired by Mista and his Stand, Sex Pistols, with the \"Six Shooter Special\" pizza. This flavor-packed delight combines a symphony of Italian sausages, cheddar cheese, crispy bacon, and tender beef, delivering a culinary performance that hits the bullseye every time.",
+                9.99,
+                listOf(AllIngredients[11], AllIngredients[13], AllIngredients[5], AllIngredients[1])
+            )
+        )
+        PizzasList.add(
+            PizzaModel(
+                3,
+                IMAGES[2],
+                "Golden Wind Delight",
+                "Taste the golden breeze with the \"Golden Wind Delight\" pizza, topped with sweet pineapples, savory onions, a generous blend of mozzarella and cheddar cheese, and tender chicken breast. This pizza is a gust of flavor you won't forget.",
+                11.50,
+                listOf(AllIngredients[7], AllIngredients[6], AllIngredients[13], AllIngredients[3])
+            )
+        )
+        PizzasList.add(
+            PizzaModel(
+                4,
+                IMAGES[3],
+                "Jojolicious Jalapeno",
+                "Brace yourself for the spicy delight of the \"Jojolicious Jalapeno\" pizza, featuring the fiery kick of jalapenos, earthy mushrooms, tantalizing cheddar cheese, and the creaminess of mozzarella. Each bite is an explosion of flavor worthy of JoJo's epic battles.",
+                8.99,
+                listOf(
+                    AllIngredients[0],
+                    AllIngredients[1],
+                    AllIngredients[2],
+                    AllIngredients[9],
+                    AllIngredients[11]
+                )
+            )
+        )
+        PizzasList.add(
+            PizzaModel(
+                5,
+                IMAGES[4],
+                "Stone Ocean Supreme",
+                "Experience a supreme flavor adventure with the \"Stone Ocean Supreme\" pizza, featuring a tantalizing combination of beef, pepperoni, cheddar cheese, and the zing of jalapenos. Get ready to ride the waves of taste!",
+                9.50,
+                listOf(AllIngredients[10], AllIngredients[9], AllIngredients[5], AllIngredients[13])
+            )
+        )
     }
 
     //get list
-    fun getPizza():List<PizzaModel>{
+    fun getPizza(): List<PizzaModel> {
         return PizzasList
     }
 
     //delete pizza from list
-    fun deletePizza(pizza: PizzaModel){
+    fun deletePizza(pizza: PizzaModel) {
         val indexToDelete: Int = PizzasList.indexOfFirst { it.id == pizza.id }
-        if(indexToDelete!=-1){
+        if (indexToDelete != -1) {
             PizzasList.removeAt(indexToDelete)
             notifyChanges()
         }
     }
 
     //move pizza to up or down
-    fun movePizza(pizza: PizzaModel, moveBy: Int){
-        val oldIndex:Int = PizzasList.indexOfFirst { it.id  == pizza.id}
-        if(oldIndex == -1) return
-        val newIndex : Int = oldIndex + moveBy
-        if(newIndex < 0 || newIndex >= PizzasList.size) return
-        Collections.swap(PizzasList,oldIndex,newIndex)
+    fun movePizza(pizza: PizzaModel, moveBy: Int) {
+        val oldIndex: Int = PizzasList.indexOfFirst { it.id == pizza.id }
+        if (oldIndex == -1) return
+        val newIndex: Int = oldIndex + moveBy
+        if (newIndex < 0 || newIndex >= PizzasList.size) return
+        Collections.swap(PizzasList, oldIndex, newIndex)
         notifyChanges()
     }
 
-    fun addListener(listener: PizzasListeners){
+    fun addListener(listener: PizzasListeners) {
         listeners.add(listener)
         listener.invoke(PizzasList)
     }
 
-    fun removeListener(listener: PizzasListeners){
+    fun removeListener(listener: PizzasListeners) {
         listeners.remove(listener)
     }
 
 
-    private fun notifyChanges(){
+    private fun notifyChanges() {
         listeners.forEach { it.invoke(PizzasList) }
     }
 
 
-
     //instead of static
-    public companion object{
+    public companion object {
 
 
         private val IMAGES = mutableListOf(
@@ -94,7 +133,6 @@ class PizzaService {
 //        "https://drive.google.com/drive/folders/1DioLOs7TeEjUXx2Hc1Ouihz-ykJzAJDs?usp=sharing"
 //        )
     }
-
 
 
 }

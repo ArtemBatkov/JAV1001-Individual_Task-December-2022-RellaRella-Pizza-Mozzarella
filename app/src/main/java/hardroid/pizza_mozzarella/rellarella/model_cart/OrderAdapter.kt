@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import hardroid.pizza_mozzarella.rellarella.R
 import hardroid.pizza_mozzarella.rellarella.databinding.IngredientItemBinding
 import hardroid.pizza_mozzarella.rellarella.databinding.OrderItemBinding
+import hardroid.pizza_mozzarella.rellarella.decorator.UIDecorator
 import hardroid.pizza_mozzarella.rellarella.model.IngredientsAdapter
 import hardroid.pizza_mozzarella.rellarella.orders
 import hardroid.pizza_mozzarella.rellarella.prefs
@@ -56,33 +57,31 @@ class OrderAdapter(
             orderPlus.tag = CurrentOrder
             orderMinus.tag = CurrentOrder
 
-            val Pref = prefs.getPref()
-            val keySP = prefs.keySpecialPromotion
-            var HasDiscount = false
-            if (Pref != null) {
-                HasDiscount = Pref.getBoolean(keySP, false)
-            }
-            if(HasDiscount){
-                orders.setNewPrice(CurrentOrder, CurrentOrder.order_old_price*0.5)
-            } else{
-                orders.setNewPrice(CurrentOrder, CurrentOrder.order_old_price)
-            }
-
             orderIngredients.text = CurrentOrder.order_ingredients.joinToString{it.IngredientName}
             orderQuantity.text = CurrentOrder.order_quantity.toString()
-            priceOrder.text = if (CurrentOrder.order_new_price < CurrentOrder.order_old_price){
-//                priceOrder.paintFlags = priceOrder.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-//                priceOrder.text = ConvertPrice(CurrentOrder.order_old_price)
-                val message = "${ConvertPrice(CurrentOrder.order_old_price)}\n${ConvertPrice(CurrentOrder.order_new_price)}";
-                val spannableString:SpannableString = SpannableString(message)
-                val position = message.indexOf("\n")
-                spannableString.setSpan(StrikethroughSpan(),0,position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                spannableString
-            }else{
-                priceOrder.paintFlags = 0
-                ConvertPrice(CurrentOrder.order_old_price)
-            }
 
+            val final_price = CurrentOrder.final_price
+            val final_price_without_bonuses = CurrentOrder.final_price_without_bonuses
+            val default_price = CurrentOrder.default_price
+            val bonuses_applied = CurrentOrder.bonuses_applied
+
+            if(bonuses_applied){
+                //style applying for priceOrder
+                priceOrder.setBackgroundResource(R.drawable.strike_through)
+                priceOrder.text =  UIDecorator().getTextPrice(final_price_without_bonuses)
+
+                //style applying for bonusPrice
+                bonusPrice.text = UIDecorator().getTextPrice(final_price)
+                bonusPrice.visibility = View.VISIBLE
+            }
+            else{
+                //style applying for priceOrder
+                priceOrder.setBackgroundResource(0);
+                priceOrder.text =  UIDecorator().getTextPrice(final_price_without_bonuses)
+
+                //style applying for bonusPrice
+                bonusPrice.visibility = View.GONE
+            }
 
             if (CurrentOrder.order_photo.isNotBlank()) {
                 Glide.with(orderPhoto)
@@ -97,7 +96,7 @@ class OrderAdapter(
                 orderPhoto.setImageResource(R.drawable.ic_default_pizza)
             }
 
-            orderMinus.isEnabled = CurrentOrder.order_quantity != 1
+            orderMinus.isEnabled = CurrentOrder.order_quantity > 1
         }
     }
 
@@ -120,9 +119,7 @@ class OrderAdapter(
     }
 }
 
-    private fun ConvertPrice(price:Double):String{
-        return "$${if(price%1.0==0.0) price.toInt() else price}"
-    }
+
 
 
 

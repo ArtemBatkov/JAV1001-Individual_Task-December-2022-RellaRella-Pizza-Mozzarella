@@ -1,5 +1,7 @@
 package hardroid.pizza_mozzarella.rellarella.model_cart
 
+import hardroid.pizza_mozzarella.rellarella.db_context.DbContext
+
 class OrderList() {
     private var OrderList: MutableList<Order> = mutableListOf()
 
@@ -9,27 +11,41 @@ class OrderList() {
 
     fun clearList(){
         OrderList.clear()
+        DbContext().deleteAllOrdersFromDB()
     }
+
 
     fun getOrderList():List<Order>{
         return OrderList.toList()
     }
 
+    fun getOrderListFromDB():List<Order>{
+        OrderList = DbContext().getOrderListFromDB().toMutableList()
+        return OrderList.toList()
+    }
+
+    fun saveOrdersToDB(){
+        DbContext().saveOrderListToDB(OrderList)
+    }
+
+
     fun addNewOrder(order: Order){
         OrderList.add(order)
+        DbContext().saveOrderListToDB(OrderList)
     }
 
     fun deleteOrder(order: Order){
         val indexToDelete: Int = getIndexOfOrder(order)
         if (indexToDelete != -1){
             OrderList.removeAt(indexToDelete)
+            DbContext().deleteItemFromDB(order)
         }
     }
 
     fun setNewPrice(order: Order, new_price: Double){
         val indexToUpdate: Int = getIndexOfOrder(order)
         if(indexToUpdate != -1){
-            OrderList.get(indexToUpdate).order_new_price = new_price
+            OrderList.get(indexToUpdate).final_price = new_price
         }
     }
 
@@ -56,10 +72,11 @@ class OrderList() {
     private fun getIndexOfOrder(order:Order): Int{
         val index: Int = OrderList.indexOfFirst {
             it.order_photo == order.order_photo &&
-                    it.order_old_price == order.order_old_price &&
+                    it.final_price == order.final_price &&
                     it.order_quantity == order.order_quantity &&
-                    it.order_new_price == order.order_new_price &&
-                    it.order_ingredients == order.order_ingredients }
+                    it.final_price_without_bonuses == order.final_price_without_bonuses &&
+                    it.order_ingredients == order.order_ingredients &&
+                    it.default_price == it.default_price}
         return  index
     }
 }

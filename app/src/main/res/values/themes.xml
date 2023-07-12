@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
 
     <!-- Delete Header-->
-    <style name="Theme.RellaRella" parent="Theme.AppCompat.Light">        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+    <style name="Theme.RellaRella" parent="Theme.AppCompat.Light.NoActionBar">        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -19,6 +19,8 @@
         <item name="android:windowEnterTransition">@transition/trans_anim</item>
         <item name="android:windowExitTransition">@transition/trans_anim</item>
 
+
+
     </style>
 
     <style name="Theme.DialogAnimation"  parent="Theme.Design.Light.BottomSheetDialog">
@@ -26,4 +28,12 @@
         <item name="android:windowExitAnimation">@anim/slidedown</item>
     </style>
 
+    <style name="Theme.MainPageBackground" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="android:alpha">0.85</item>
+
+
+    </style>
 </resources>

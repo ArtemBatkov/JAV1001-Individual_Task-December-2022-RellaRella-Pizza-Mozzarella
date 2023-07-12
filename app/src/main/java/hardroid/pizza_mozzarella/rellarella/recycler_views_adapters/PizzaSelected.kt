@@ -18,10 +18,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import hardroid.pizza_mozzarella.rellarella.MainActivity
 import hardroid.pizza_mozzarella.rellarella.R
+import hardroid.pizza_mozzarella.rellarella.decorator.UIDecorator
 import hardroid.pizza_mozzarella.rellarella.model.*
 import hardroid.pizza_mozzarella.rellarella.model_cart.Order
 import hardroid.pizza_mozzarella.rellarella.orders
 import hardroid.pizza_mozzarella.rellarella.prefs
+import java.text.DecimalFormatSymbols
 import java.util.*
 
 class PizzaSelected : AppCompatActivity() {
@@ -52,6 +54,7 @@ class PizzaSelected : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_pizza_selected)
 
+
         PizzaProfilePhoto = findViewById(R.id.pizza_photo_selected)
         BackButton = findViewById(R.id.button_back)
         TitlePizza = findViewById(R.id.title_pizza)
@@ -65,8 +68,8 @@ class PizzaSelected : AppCompatActivity() {
         TitlePizza.text = intent.getStringExtra("PIZZA_TITLE").toString()
         DescriptionPizza.text = intent.getStringExtra("PIZZA_DESCRIPTION").toString()
 
-        var Price = intent.getDoubleExtra("PIZZA_PRICE",50.0)
-        PizzaPrice.text = "$${if(Price%1.0==0.0)Price.toInt() else Price}"
+        val Price = intent.getDoubleExtra("PIZZA_PRICE",7.0)
+        PizzaPrice.text = "$${UIDecorator().getFormatedDoubleAsPrice(Price)}"
 
 
         val bundle = intent.getBundleExtra("data")
@@ -97,12 +100,12 @@ class PizzaSelected : AppCompatActivity() {
 
         //dialog ingredients changes -- start
         //Dialog when a user wants to change ingredients
-        IngredientsDialog  = Dialog(this,R.style.Theme_DialogAnimation);//Create new dialog window
-        IngredientsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//hide tittle
-        IngredientsDialog.setContentView(R.layout.ingredients_choice);//path to dialog content
-        IngredientsDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.WHITE));//Transperent
+        IngredientsDialog  = Dialog(this,R.style.Theme_DialogAnimation)//Create new dialog window
+        IngredientsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)//hide tittle
+        IngredientsDialog.setContentView(R.layout.ingredients_choice)//path to dialog content
+        IngredientsDialog.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))//Transperent
         //transparent background of the dialog window
-        IngredientsDialog.setCancelable(true);//window CAN BE be closed by back button
+        IngredientsDialog.setCancelable(true)//window CAN BE be closed by back button
         IngredientsDialog.window!!.setGravity(Gravity.BOTTOM)
         IngredientsDialog.window!!.attributes.windowAnimations = R.style.Theme_DialogAnimation
         val displayMetrics = DisplayMetrics()
@@ -115,18 +118,27 @@ class PizzaSelected : AppCompatActivity() {
         if(IngredientsList!=null){
 
             IngredientsListWithChanges = IngredientsList.toMutableList()
-            IngredientsListWithChanges.add(threshold);
-            JoinIngredients();
+            IngredientsListWithChanges.add(threshold)
+            JoinIngredients()
 
 
-              IngredientAdapter = IngredientsAdapter(object: IngredientsActionListener{
+            IngredientAdapter = IngredientsAdapter(object: IngredientsActionListener{
 
                 override fun onIngredientDeleted(ingredient: Ingredient) {
 //                    Toast.makeText(this@PizzaSelected, "you picked: ${ingredient.IngredientName} and button delete",
 //                        Toast.LENGTH_LONG).show()
+
+                    //reflect the old price
+                    val total = UIDecorator().fromPriceToDouble(PizzaPrice.text.toString())
+                    PizzaPrice.text = "$${UIDecorator().getFormatedDoubleAsPrice(total)}"
+
                     val index = IngredientsListWithChanges.indexOfFirst { it.IngredientID == ingredient.IngredientID }
                     IngredientsListWithChanges.removeAt(index)
-                    JoinIngredients();
+                    JoinIngredients()
+
+                    //reflect the new price
+                    PizzaPrice.text =  "$${UIDecorator().getFormatedDoubleAsPrice(total - ingredient.IngredientPrice)}"
+
                     UpdateAdapterList(IngredientsListWithChanges.toList(), index, "remove")
 
                     if(IngredientsListWithChanges[0].IngredientName.equals("Threshold")){
@@ -138,6 +150,7 @@ class PizzaSelected : AppCompatActivity() {
                         JoinIngredients()
                         UpdateAdapterList(IngredientsListWithChanges,position,"force to reload")
                         Toast.makeText(this@PizzaSelected, "A pizza should have at least one ingredient except dough!",Toast.LENGTH_LONG).show()
+                        PizzaPrice.text = "$${UIDecorator().getFormatedDoubleAsPrice(Price)}"
                     }
                 }
 
@@ -146,7 +159,13 @@ class PizzaSelected : AppCompatActivity() {
                     IngredientsListWithChanges = IngredientsListWithChanges.subList(0,ThresholdPosition).toMutableList()
                     IngredientsListWithChanges.add(ingredient)
                     IngredientsListWithChanges.add(threshold)
-                    JoinIngredients();
+                    JoinIngredients()
+
+                    //reflect the new price
+                    val total = UIDecorator().fromPriceToDouble(PizzaPrice.text.toString()) + ingredient.IngredientPrice
+                    PizzaPrice.text = "$${UIDecorator().getFormatedDoubleAsPrice(total)}"
+
+                    //update adapter
                     UpdateAdapterList(IngredientsListWithChanges.toList(),ThresholdPosition,"add")
                 }
             },IngredientsListWithChanges.toList())
@@ -177,8 +196,10 @@ class PizzaSelected : AppCompatActivity() {
                 if (Pref != null) {
                     HasDiscount = Pref.getBoolean(keySP, false)
                 }
-                val newPrice: Double = if(HasDiscount) Price*0.5 else Price
-                val newOrder = Order(current_pizza_photo.toString(), Price, newPrice, IngredientsListWithChanges.subList(from,to), 1)
+                val default_price = intent.getDoubleExtra("PIZZA_PRICE",7.0);
+                val total: Double = UIDecorator().fromPriceToDouble(PizzaPrice.text.toString())
+                val newPrice: Double = if(HasDiscount) total*0.5 else total
+                val newOrder = Order(newPrice, total, default_price, HasDiscount, current_pizza_photo.toString(), IngredientsListWithChanges.subList(from,to), 1)
                 orders.addNewOrder(newOrder)
                 gotoMainActivity()
             }
@@ -228,6 +249,8 @@ class PizzaSelected : AppCompatActivity() {
             }
         }
     }
+
+
 
 
 
