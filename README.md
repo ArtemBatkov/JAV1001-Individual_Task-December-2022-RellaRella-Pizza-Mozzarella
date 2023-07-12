@@ -34,10 +34,24 @@
 
 <div align="center">
 
- ![MainPage](https://github.com/ArtemBatkov/Sights-Navigator/assets/110242091/487898c0-8e2c-4980-be8e-f21c8c1f06c9) 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/bf07079b-b9cd-44d3-8e40-2cace8a18962" width=25% height=25%>
+ 
 <br>
-Screenshot 1 -- The MainPage represents the initial page of the app. It contains the query string, button search and navigation to the "Trip" page.
+Screenshot 1 -- The MainPage represents the initial page of the app. It contains the scroll ad containers, list of food, and bottom navigation menu. 
 <br><br>
+
+
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/d1a8bf37-edd0-41ce-9e5b-8f9f18364d27" width=25% height=25%>
+<br>
+Screenshot 2 -- All ads are scrollable here. This is an example of gesture scrolling. When gesture scrolling occurs you can stay in the middle step between two slides.
+<br><br>
+
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/40f49183-9d4a-4410-bdc1-c80c58b0e713" width=25% height=25%>
+<br>
+Screenshot 3 -- Ads can be scrolled forward or backward by pushing arrow buttons as well.
+<br><br>
+
+
 
 </div>
  
