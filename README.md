@@ -105,9 +105,45 @@ Screenshot 8 -- Replaced 3 cheese blends and bacon with Cheddar cheese.
 <br><br>
 </div>
 
+#### &emsp;   Note that the overall price has also changed.
+
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/d7c2a33f-5b98-4ea0-8326-1779c9cbc203"  width=25% height=25%>
+<br>
+Screenshot 9 -- The overall price is able to change depending on the doping.
+<br><br>
+</div>
+
+#### &emsp;   Now, let's add this pizza to the cart.
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/3c0cc3e4-b20c-4c1f-aaab-99dc6d45c209"  width=25% height=25%>
+<br>
+Screenshot 10 -- Note, that the number of items in the cart has increased by 1.
+<br><br>
+</div>
+
+#### &emsp;   Click on the cart, and check the overall order.
+
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/8307e5a1-311e-4bb4-8af7-4a66942d8179"  width=25% height=25%>
+<br>
+Screenshot 11 -- The added pizza is displayed in the order.  
+<br><br>
+</div>
+ 
+#### &emsp;   The quantity of each pizza can be changed by clicking "+" or "-" buttons. It pushes to change the overall order price at the bottom.
+
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/8dc3a60a-351f-44c0-923d-fe94b3a25629"  width=25% height=25%>
+<br>
+Screenshot 11 -- The added pizza is displayed in the order.  
+<br><br>
+</div>
+ 
 
 
 
+ 
 
 
 
