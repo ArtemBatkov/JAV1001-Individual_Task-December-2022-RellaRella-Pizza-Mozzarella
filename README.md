@@ -183,7 +183,13 @@ Screenshot 17 -- Congrats on your first order of our RellaRella pizza!
 <br><br>
 </div>
 
+## &emsp;**Finally**
 
+&emsp; Thank you for taking the time to explore RellaRella-PizzaMozzarella! We hope you enjoyed learning about our pizza ordering application with a touch of JoJo Bizarre Adventure.
+<br>
+&emsp; If you have any questions, feedback, or would like to discuss potential collaboration or customization options, please don't hesitate to reach out to us at hardroid2022@gmail.com. We would be thrilled to hear from you!
+<br>
+&emsp; Happy ordering and bon appétit! 🍕
 
 
 
