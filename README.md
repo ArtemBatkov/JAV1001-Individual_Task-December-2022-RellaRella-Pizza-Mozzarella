@@ -63,7 +63,7 @@ Screenshot 4 -- Here is the login page.
 <br><br>
 </div>
 
-#### &emsp;  Let's navigate to the cart page. 
+#### &emsp;  Go to the cart page. 
 #### &emsp;  Please note, it is empty because nothing was selected.
 
 <div align="center"> 
@@ -73,14 +73,72 @@ Screenshot 5 -- Here is the cart page.
 <br><br>
 </div>
 
-#### &emsp;  Let's navigate to the map page. 
+#### &emsp;  Move to the page. 
+
+
+
+#### &emsp;  Return to the main page.
+
+#### &emsp;  Please, scroll a little bit down, and select any pizza from the list. 
 
 <div align="center"> 
-<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/d73ff45d-9d85-4c91-8d42-96fa837c5a85"  width=25% height=25%>
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/2f28fd17-65e1-44c6-9f01-171aba73be63"  width=25% height=25%>
 <br>
-Screenshot 5 -- Here is the cart page.   
+Screenshot 6 -- The detailed page of the pizza. It contains the photo, title, description, ingredient list, price, and ordering button. 
 <br><br>
 </div>
 
-#### &emsp;  to be continued...
- 
+#### &emsp;   You can change the ingredients that you desire. To do that click "ingredients" button.
+
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/5efd9940-6062-402d-a98a-8493764aec9a"  width=25% height=25%>
+<br>
+Screenshot 7 -- Ingredients choice.
+<br><br>
+</div>
+
+#### &emsp;   Some ingredients were changed to new ones.
+<div align="center"> 
+<img src="https://github.com/ArtemBatkov/RellaRella-PizzaMozzarella/assets/110242091/8a364465-873a-4b3d-83d5-5a9cf7404f7a"  width=25% height=25%>
+<br>
+Screenshot 8 -- Replaced 3 cheese blends and bacon with Cheddar cheese.
+<br><br>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
